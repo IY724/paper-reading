@@ -154,7 +154,7 @@ PASS structure balanced, pairing and anchors consistent
 git clone https://github.com/IY724/paper-reading.git ~/.agents/skills/paper-reading
 ```
 
-Windows 放进 `C:\Users\<你的用户名>\.agents\skills\paper-reading`。这个目录已经在 Qoder 桌面端与 Claude Code 的技能扫描路径里，放进去就能用，不用建软链接。
+Windows 放进 `C:\Users\<你的用户名>\.agents\skills\paper-reading`。这个目录已在 Qoder 桌面端的技能扫描路径内，放进去就能用，不用建软链接。其他客户端请放进各自的技能目录。
 
 ## 六、用法
 
