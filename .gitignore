@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+_work/
+figs/
+_shots/
+_part*.html
+*._shot.html

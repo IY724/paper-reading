@@ -1,0 +1,313 @@
+<!--
+Copy-paste blocks for skeleton.html. Replace every {{TOKEN}}; leave no token behind.
+Paragraph numbers ¶ NN are global and continuous across sections, zero padded to 2.
+The .pnum number and the .note-h .no number MUST match; check_html.py enforces this.
+-->
+
+<!-- ===== BLOCK: NAV_ITEM (one per section, inside .nav-inner) ===== -->
+    <a href="#s1"><span class="nn">01</span>引言</a>
+
+<!-- ===== BLOCK: SECTION (wrap a group of ROWs; id must match its NAV_ITEM) ===== -->
+  <section id="s1">
+    <div class="sechead">
+      <span class="num">01</span>
+      <h2>引言</h2>
+      <span class="en">Introduction</span>
+      <span class="hint">问题定位 · 4 段</span>
+    </div>
+    <!-- ROW blocks go here -->
+  </section>
+
+<!-- ===== BLOCK: ROW (one per source paragraph) =====
+     note class -> dimension: c-thesis 核心论点 / c-concept 关键概念 /
+     c-evidence 实证证据 / c-concession 让步反驳 / c-method 方法论
+     mark class -> t / r / b / g / p, same five dimensions.
+     ONE mark per paragraph at most, and its class must equal the note's dimension
+     (c-thesis->t, c-concept->r, c-evidence->b, c-concession->g, c-method->p).
+     Mark the single sentence the paragraph would lose most if removed; transitional,
+     metadata and reference paragraphs may have none. The note then repeats that exact
+     fragment in a 标注 line so the colour is explained rather than guessed.
+     Keep the source wording verbatim; only rejoin line-break hyphenation.
+     Escape & < > inside quoted text. Use <sub>/<sup> for indices and powers.
+     After .zh, attach everything the paragraph cites: FIGURE, EQUATION, TABLE.
+     A paragraph that cites 式(N) or 表 N without the block present is a defect. -->
+    <article class="row" id="p01">
+      <div class="text">
+        <div class="pnum">¶ 01 · INTRODUCTION</div>
+        <p class="en">{{ENGLISH_PARAGRAPH_WITH_MARKS}}</p>
+        <div class="zh">
+          <span class="lead">中文译文</span>
+          <p>{{CHINESE_TRANSLATION}}</p>
+        </div>
+        <!-- optional FIGURE / FIG_GRID / EQUATION / TABLE blocks go here, after the translation -->
+      </div>
+      <aside class="note c-thesis">
+        <div class="note-h"><span class="no">¶ 01</span><span class="dim">核心论点</span></div>
+        <dl>
+          <dt>段落功能</dt>
+          <dd>{{WHAT_THIS_PARAGRAPH_DOES}}</dd>
+          <dt>逻辑角色</dt>
+          <dd>{{WHERE_IT_SITS_IN_THE_ARGUMENT}}</dd>
+          <dt>技巧与漏洞</dt>
+          <dd>{{RHETORIC_AND_WEAKNESS}}</dd>
+          <dt>标注</dt>
+          <dd><span class="sw t"></span>「{{MARKED_FRAGMENT_VERBATIM_SAME_AS_THE_MARK}}」</dd>
+        </dl>
+      </aside>
+    </article>
+
+<!-- ===== BLOCK: FIGURE (single, inside .text after .zh) =====
+     data-fig is resolved by inline_figs.py against the figs/ directory.
+     Write the Chinese caption from the CROPPED IMAGE, not from the body text's
+     description, and keep the printed English caption verbatim in .fcap-en. -->
+        <figure class="fig">
+          <a class="fig-frame" href="#" aria-label="放大地查看图 1"><img data-fig="fig01" alt="{{ALT_TEXT}}"></a>
+          <figcaption><span class="fno">图 1</span>{{CAPTION_ZH}}<span class="fsrc">原文 p.3</span>
+          <span class="fcap-en">{{ORIGINAL_ENGLISH_CAPTION_VERBATIM}}</span></figcaption>
+        </figure>
+
+<!-- ===== BLOCK: FIG_GRID (2-4 related panels, inside .text after .zh) ===== -->
+        <div class="fig-grid">
+          <figure class="fig">
+            <a class="fig-frame" href="#" aria-label="放大地查看图 10"><img data-fig="fig10" alt="{{ALT_TEXT}}"></a>
+            <figcaption><span class="fno">图 10</span>{{CAPTION_ZH}}</figcaption>
+          </figure>
+          <figure class="fig">
+            <a class="fig-frame" href="#" aria-label="放大地查看图 11"><img data-fig="fig11" alt="{{ALT_TEXT}}"></a>
+            <figcaption><span class="fno">图 11</span>{{CAPTION_ZH}}</figcaption>
+          </figure>
+        </div>
+        <p class="fig-note">{{HOW_TO_READ_THESE_PANELS}}</p>
+
+<!-- ===== BLOCK: EQUATION (display math, pure CSS, no MathJax) =====
+     Put it inside .text, right after the .en paragraph that cites it.
+     data-eq is read by check_html.py to cross-check 式(N) references.
+     .frac stacks two spans, the top one draws the rule; .brd enlarges brackets;
+     .op keeps operators upright; variables in <i>.
+     Reproduce the PRINTED form exactly, including any error — discuss the error in
+     技巧与漏洞, do not silently correct it here. -->
+        <div class="eq" data-eq="13">
+          <div class="body"><i>D</i> <span class="op">=</span> 1 <span class="op">−</span>
+            <span class="brd">(</span><span class="frac"><span><i>σ</i><sub>r</sub> <span class="op">−</span> <i>σ</i></span><span><i>σ</i><sub>0</sub> <span class="op">−</span> <i>σ</i></span></span><span class="brd">)</span>
+            <span class="op">=</span> 1 <span class="op">−</span>
+            <span class="brd">[</span>1 <span class="op">−</span> <i>r</i><sup>β</sup><span class="brd">]</span><sup>1/α</sup>,
+            <i>r</i> <span class="op">=</span>
+            <span class="frac"><span>ln(4<i>n</i>)</span><span>ln(4<i>N</i><sub>f</sub>)</span></span></div>
+          <span class="num">式 (13)</span>
+        </div>
+
+<!-- ===== BLOCK: TABLE (copy the printed numbers exactly) =====
+     data-tbl is read by check_html.py to cross-check 表 N references.
+     class="flag" marks the value the批注 disputes, class="ok" the value that satisfies
+     the stated constraint. Wide tables scroll horizontally; never drop columns to fit.
+     Do not invent rows the paper does not print — record omissions in .src instead. -->
+        <div class="tbl" data-tbl="1">
+          <table>
+            <caption><span class="fno">表 1</span>统一载荷参数 u 与修正后 û 的计算值对比</caption>
+            <thead><tr><th>应力水平</th><th>σ/Y<sub>T</sub></th><th>u（原式）</th><th>û（式 6）</th><th>N<sub>f</sub></th></tr></thead>
+            <tbody>
+              <tr><td>90% Y<sub>T</sub></td><td>0.90</td><td class="flag">−1.2247</td><td class="ok">0.8123</td><td>2 400</td></tr>
+              <tr><td>70% Y<sub>T</sub></td><td>0.70</td><td>0.2851</td><td>0.6472</td><td>86 931.2</td></tr>
+            </tbody>
+          </table>
+          <span class="src">原文 p.6 · 数值照抄原表。原表未给出修正后预测与任何试验 N<sub>f</sub> 的比对。</span>
+        </div>
+
+<!-- ===== BLOCK: REPRO (仿真复现档案) =====
+     Fill skeleton.html's {{REPRO}} with this; put an empty string there when the
+     paper has no simulation. If present, all nine data-rp cards are required and
+     a nav item must be added: <a href="#repro"><span class="nn">▣</span>复现档案</a>
+     Accent order for --rc: geometry 0d2136, mesh 7350a5, material bc8f16, umat b5463a,
+     solve 3a76ae, fail 3b8357, results bc8f16, env 7b7263, gaps b5463a.
+     Cards stack one per row, full width (.rp-grid is a single-column grid).
+     Do not put cards side by side: each card mixes text, a gap banner and figures,
+     and half-width columns clip the figures and break the reading order.
+
+     Rule: every value must trace to a page, table, equation or figure. Anything the
+     paper does not state goes into .gap on that card AND into the rp-gaps list.
+
+     Cards may carry visuals:
+       .rp-figs  — thumbnail strip; reuse class="fig rp-fig" with a class="fig-frame"
+                   anchor so the existing lightbox works. Clone the body's already-inlined
+                   data URI (re-encode narrower, ~620px q72) instead of re-rendering from
+                   the PDF, so the dossier and the body show the identical image.
+       .rp-links — chips linking to the body's figures/tables/equations for everything
+                   not shown, so nothing is duplicated twice at full size.
+     Pick by reproduction role, not by availability: mesh card gets the mesh figure,
+     umat card gets the implementation flowchart, results card gets S-N and the
+     stress-strain response, fail card gets one representative failure-index plot.
+     If a local reproduction exists but has no saved figure, generate one from its
+     result data (e.g. FE quantity vs analytic curve + error panel) and put it in the
+     results card — that is the figure the paper cannot supply. -->
+  <section class="repro" id="repro">
+    <div class="sechead">
+      <span class="num">▣</span>
+      <h2>仿真复现档案</h2>
+      <span class="en">Reproduction Dossier</span>
+      <span class="hint">按可复现口径整理 · 缺口已逐条标注</span>
+    </div>
+    <p class="rp-lead">{{WHAT_THIS_DOES_AND_WHAT_IT_IS_BUILT_FROM}}</p>
+
+    <div class="rp-grid">
+      <div class="rp-card" data-rp="geometry" style="--rc:#0d2136">
+        <h3><span class="rpno">01</span>几何与铺层</h3>
+        <dl>
+          <dt>对象</dt><dd>{{SPECIMEN_TYPE_AND_DIMENSIONS}}</dd>
+          <dt>铺层</dt><dd>{{PLY_SEQUENCE_AND_THICKNESS}}</dd>
+          <dt>对称与平衡</dt><dd>{{SYMMETRY_USED}}</dd>
+        </dl>
+        <span class="gap"><b>原文未给出</b>：{{MISSING_ON_THIS_CARD}}</span>
+        <p class="fig-note">模型图：{{WHY_THIS_FIGURE}}</p>
+        <div class="rp-figs">
+          <figure class="fig rp-fig">
+            <a class="fig-frame" href="#" aria-label="放大地查看图 3">
+              <img data-fig="fig03" alt="{{ALT_TEXT}}"></a>
+            <figcaption><span class="fno">图 3</span>{{WHAT_IT_SHOWS_IN_ONE_LINE}}</figcaption>
+          </figure>
+        </div>
+        <div class="rp-links">
+          <a href="#p29">图 8 原图</a><a href="#p27">表 4 属性</a>
+        </div>
+      </div>
+
+      <div class="rp-card" data-rp="mesh" style="--rc:#7350a5">
+        <h3><span class="rpno">02</span>单元与网格</h3>
+        <dl>
+          <dt>单元类型</dt><dd>{{ELEMENT_AND_INTEGRATION，如 C3D8R + 增强沙漏控制}}</dd>
+          <dt>网格规模</dt><dd>{{ELEMENTS_PER_PLY / REFINED_ZONE}}</dd>
+          <dt>加密策略</dt><dd>{{WHERE_AND_WHY_REFINED}}</dd>
+          <dt>网格敏感性</dt><dd>{{CONVERGED_OR_NOT}}</dd>
+        </dl>
+      </div>
+
+      <div class="rp-card" data-rp="material" style="--rc:#bc8f16">
+        <h3><span class="rpno">03</span>材料属性</h3>
+        <dl>
+          <dt>体系</dt><dd>{{FIBER/MATRIX，如 AS4/3501-6}}</dd>
+          <dt>取值来源</dt><dd>{{WHICH_REFERENCE — 是否做过标定}}</dd>
+          <dt>关键常数</dt><dd>{{指向正文的表 N，不重复列数}}</dd>
+        </dl>
+      </div>
+
+      <div class="rp-card wide" data-rp="umat" style="--rc:#b5463a">
+        <h3><span class="rpno">04</span>本构与子程序</h3>
+        <dl>
+          <dt>实现载体</dt><dd>{{UMAT/VUMAT/VDLOAD…，调用哪个求解器分支}}</dd>
+          <dt>状态变量</dt><dd>{{SDV 清单或其编号范围；本地有 SDV 表就指向它}}</dd>
+          <dt>退化对象</dt><dd>{{哪些工程常数被折减、按什么律}}</dd>
+          <dt>主公式</dt><dd>式 (<a href="#p20">12</a>)、式 (<a href="#p21">13</a>)、式 (<a href="#p21">14</a>) — 链接到正文对应段</dd>
+        </dl>
+      </div>
+
+      <div class="rp-card" data-rp="solve" style="--rc:#3a76ae">
+        <h3><span class="rpno">05</span>载荷与求解设置</h3>
+        <dl>
+          <dt>载荷形式</dt><dd>{{恒幅/变幅、R 比、频率}}</dd>
+          <dt>分析步</dt><dd>{{步序：加载—保持—退化—卸载—再加载至失效}}</dd>
+          <dt>循环映射</dt><dd>{{每个时间增量代表多少循环}}</dd>
+          <dt>Jacobian</dt><dd>{{是否与几何非线性一致}}</dd>
+        </dl>
+      </div>
+
+      <div class="rp-card" data-rp="fail" style="--rc:#3b8357">
+        <h3><span class="rpno">06</span>失效与退化判据</h3>
+        <dl>
+          <dt>判据</dt><dd>{{Hashin / Puck / CDM…}}</dd>
+          <dt>退化方式</dt><dd>{{瞬时折减系数，指向表 N}}</dd>
+          <dt>不建模的机制</dt><dd>{{分层等，写明为何仍可接受}}</dd>
+        </dl>
+      </div>
+
+      <div class="rp-card" data-rp="results" style="--rc:#bc8f16">
+        <h3><span class="rpno">07</span>结果与对照</h3>
+        <dl>
+          <dt>验证量</dt><dd>{{S-N、NTS、RTS、失效指标云图}}</dd>
+          <dt>对照基准</dt><dd>{{哪篇试验、几个平行件}}</dd>
+          <dt>误差</dt><dd>{{具体数字，不写「吻合良好」}}</dd>
+          <dt>判据强度</dt><dd>{{该对照能否证伪本模型}}</dd>
+        </dl>
+      </div>
+
+      <div class="rp-card" data-rp="env" style="--rc:#7b7263">
+        <h3><span class="rpno">08</span>软件与环境</h3>
+        <dl>
+          <dt>求解器版本</dt><dd>{{原文写了就照抄；没写就标缺口}}</dd>
+          <dt>编译链</dt><dd>{{若本地复现过，写实测版本}}</dd>
+          <dt>运行方式</dt><dd>{{命令或脚本入口}}</dd>
+        </dl>
+      </div>
+    </div>
+
+    <p class="rp-sub">子程序每个增量步做什么</p>
+    <ol class="rp-algo">
+      <li>读入 <code>STEPP</code>、<code>TIME</code>、上一增量 <code>STATEV</code>，判断当前处于哪一载荷块。</li>
+      <li>由当前应力水平与 <code>SDV</code> 中的累积损伤反算<b>等效已用循环</b>（式 14/15）。</li>
+      <li>按退化律更新强度与刚度，写回 <code>DDSDTT</code> 供 Jacobian 使用。</li>
+      <li>用判据（式 16–19）算失效指标，达到 1 则施加瞬时折减（表 3）。</li>
+      <li>把新的损伤、循环数、各模式失效指标写入 <code>STATEV</code>，交回下一增量。</li>
+    </ol>
+
+    <p class="rp-sub">本地可复现文件</p>
+    <div class="rp-files">
+      <table>
+        <thead><tr><th>文件</th><th>作用</th><th>怎么跑</th></tr></thead>
+        <tbody>
+          <tr><td><code>umat_fatigue.for</code></td><td>主子程序</td><td><code>abaqus job=... user=umat_fatigue.for</code></td></tr>
+          <tr><td><code>lam90_uniform_70.inp</code></td><td>提交求解用模型</td><td><code>abaqus job=lam90_uniform_70 cp=8</code></td></tr>
+          <tr><td><code>SDV_TABLE.md</code></td><td>状态变量编号对照</td><td>阅读</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="rp-sub">复现缺口清单</p>
+    <ul class="rp-gaps">
+      <li><b>求解器版本</b>：原文只写 ABAQUS，未给版本号与子程序接口差异。</li>
+      <li><b>网格收敛</b>：承认瞬时退化对网格敏感，但未给收敛曲线。</li>
+      <li class="resolved"><b>α/β 取值</b>：原文已说明系排版互换，可按表 2 更正后使用。</li>
+    </ul>
+  </section>
+
+<!-- ===== BLOCK: REFS (full reference list, inside .text) =====
+     Bibliography stays in the original English; translating it destroys its use as a
+     locator. Mark citation problems found while annotating with .refnote, naming the
+     paragraph where the bad citation occurs. -->
+        <ol class="refs-list">
+          <li>{{REFERENCE_1_VERBATIM}}</li>
+          <li>{{REFERENCE_2_VERBATIM}}<span class="refnote">正文 ¶ 07 误作「Shankaraman et al.」，此处为 Sankararaman。</span></li>
+        </ol>
+
+<!-- ===== BLOCK: META (publication info, replaces nothing — add beside the legend) ===== -->
+    <div class="legend">
+      <h2>出版信息</h2>
+      <ul class="meta-list">
+        <li><b>投稿</b>{{RECEIVED}} 接收 {{ACCEPTED}} 发表 {{PUBLISHED}}</li>
+        <li><b>单位</b>{{AFFILIATIONS}}</li>
+        <li><b>通讯</b>{{CORRESPONDING}}</li>
+        <li><b>关键词</b>{{KEYWORDS}}</li>
+        <li><b>资助</b>{{FUNDING}}</li>
+        <li><b>许可</b>{{LICENSE}}</li>
+      </ul>
+    </div>
+
+<!-- ===== BLOCK: FLOW_STEP (five of them: 问题 论点 证据 反驳 结论) ===== -->
+      <div class="step" style="--sc:var(--y-line)">
+        <span class="k">问题</span>
+        <h3>{{SHORT_TITLE}}</h3>
+        <p>{{ONE_OR_TWO_SENTENCES}}</p>
+        <span class="refs">¶ 04–05 · ¶ 19</span>
+      </div>
+<!-- accent order: --y-line 问题, --r-line 论点, --b-line 证据, --g-line 反驳, --p-line 结论 -->
+
+<!-- ===== BLOCK: DUO_BOX (exactly two: strongest then weakest) ===== -->
+      <div class="box" style="--dc:var(--b-line)">
+        <span class="tag">最强处 · STRONGEST</span>
+        <h3>{{SHORT_TITLE}}</h3>
+        <p>{{EVIDENCED_REASON}}</p>
+        <span class="refs">¶ 15 · ¶ 18</span>
+      </div>
+      <div class="box" style="--dc:var(--r-line)">
+        <span class="tag">最弱处 · WEAKEST</span>
+        <h3>{{SHORT_TITLE}}</h3>
+        <p>{{EVIDENCED_REASON}}</p>
+        <span class="refs">¶ 23 · ¶ 41</span>
+      </div>
